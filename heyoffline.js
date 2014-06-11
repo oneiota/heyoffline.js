@@ -88,9 +88,10 @@
         fields: document.querySelectorAll(this.options.elements.join(',')),
         overlay: document.createElement('div'),
         modal: document.createElement('div'),
-        heading: document.createElement('h2'),
+        message: document.createElement('div'),
+        icon: document.createElement('i'),
         content: document.createElement('p'),
-        button: document.createElement('a')
+        button: document.createElement('btn')
       };
       this.defaultStyles = {
         overlay: {
@@ -131,17 +132,18 @@
     Heyoffline.prototype.createElements = function() {
       this.createElement(document.body, 'overlay');
       this.resizeOverlay();
-      this.createElement(this.elements.overlay, 'modal');
-      this.createElement(this.elements.modal, 'heading', this.options.text.title);
-      this.createElement(this.elements.modal, 'content', this.options.text.content);
+      this.createElement(this.elements.overlay, 'modal', '', '');
+      this.createElement(this.elements.modal, 'message', '', 'alert alert-warning text-center');
+      this.createElement(this.elements.message, 'icon', '', 'icon-warning icon');
+      this.createElement(this.elements.message, 'content', this.options.text.content, '', '');
       if (!this.options.disableDismiss) {
-        this.createElement(this.elements.modal, 'button', this.options.text.button);
-        return this.addEvent(this.elements.button, 'click', this.hideMessage);
+        this.createElement(this.elements.message, 'button', this.options.text.button, 'btn btn-danger');
+        return this.addEvent(this.elements.button, 'click', this.hideMessage, '', '');
       }
     };
 
-    Heyoffline.prototype.createElement = function(context, element, text) {
-      this.elements[element].setAttribute('class', "" + this.options.prefix + "_" + element);
+    Heyoffline.prototype.createElement = function(context, element, text, classes) {
+      this.elements[element].setAttribute('class', "" + this.options.prefix + "_" + element + " " + classes);
       this.elements[element] = context.appendChild(this.elements[element]);
       if (text) {
         this.elements[element].innerHTML = text;
